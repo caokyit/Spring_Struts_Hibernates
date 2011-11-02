@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:location="/WEB-INF/jdbc.properties" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
+		p:username="${jdbc.username}" p:password="${jdbc.password}" />
+
+	<!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
+	
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource"></ref>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+			    <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/spring_hibernate</prop>
+			    <prop key="hibernate.connection.username">root</prop>
+			    <prop key="hibernate.connection.password">123456</prop>
+			    <prop key="hibernate.show_sql">true</prop>
+			    <prop key="hibernate.connection.pool_size">1</prop>
+			    <prop key="hibernate.connection.autocommit">true</prop>
+			    <prop key="hibernate.transaction.auto_close_session">true</prop>
+			    <prop key="hibernate.transaction.flush_before_completion">true</prop>
+			    <prop key="hibernate.current_session_context_class">thread</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>domain/Users.hbm.xml</value>
+				<value>domain/Products.hbm.xml</value>
+				<value>domain/Producttype.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!--DECLARE TRANSACTION MANAGER -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"></ref>
+		</property>
+	</bean>
+
+	<!-- DECLARE BUSSINESS OBJECT -->
+	<bean id="userBOTarget" class="bol.UserBO">
+		<property name="userDAO">
+			<ref bean="userDAOTarget"></ref>
+		</property>
+	</bean>
+	<bean id="productBOTarget" class="bol.ProductBO">
+		<property name="productDAO">
+			<ref bean="productDAOTarget"></ref>
+		</property>
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"></ref>
+		</property>
+	</bean>
+	<bean id="productTypeBOTarget" class="bol.ProductTypeBO">
+		<property name="productTypeDAO">
+			<ref bean="productTypeDAOTarget"></ref>
+		</property>
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"></ref>
+		</property>
+	</bean>
+
+	<!--DECLARE DATA ACCESS OBJECT -->
+	<bean id="userDAOTarget" class="dao.UserDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"></ref>
+		</property>
+	</bean>
+	<bean id="productDAOTarget" class="dao.ProductDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"></ref>
+		</property>
+	</bean>
+	<bean id="productTypeDAOTarget" class="dao.ProductTypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"></ref>
+		</property>
+	</bean>
+
+	<!--DECLARE SPRING AOP AND TRANSACTION -->
+	<bean id="userAOP" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="target">
+			<ref local="userBOTarget"></ref>
+		</property>
+		<property name="transactionManager">
+			<ref bean="transactionManager"></ref>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED</prop>
+				<prop key="addNew">PROPAGATION_REQUIRED</prop>
+				<prop key="update">PROPAGATION_REQUIRED</prop>
+				<prop key="delete">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+		<property name="proxyInterfaces">
+			<value>bol.IUserBO</value>
+		</property>
+	</bean>
+	
+	<bean id="productAOP" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="target">
+			<ref local="productBOTarget"></ref>
+		</property>
+		<property name="transactionManager">
+			<ref bean="transactionManager"></ref>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED</prop>
+				<prop key="addNew">PROPAGATION_REQUIRED</prop>
+				<prop key="update">PROPAGATION_REQUIRED</prop>
+				<prop key="delete">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+		<property name="proxyInterfaces">
+			<value>bol.IProductBO</value>
+		</property>
+	</bean> 
+	<bean id="productTypeAOP" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="target">
+			<ref local="productTypeBOTarget"></ref>
+		</property>
+		<property name="transactionManager">
+			<ref bean="transactionManager"></ref>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED</prop>
+				<prop key="addNew">PROPAGATION_REQUIRED</prop>
+				<prop key="update">PROPAGATION_REQUIRED</prop>
+				<prop key="delete">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+		<property name="proxyInterfaces">
+			<value>bol.IProductTypeBO</value>
+		</property>
+	</bean> 
+</beans>

@@ -1,0 +1,294 @@
+body 
+{
+	font-size: 11px;
+	font-family: Verdana, Arial;
+	color: #333333;
+	line-height: 150%;
+	padding: 0px;
+	margin: 0px;
+}
+
+a 
+{
+	text-decoration:none;
+} 
+a:hover
+{
+	
+}
+
+/* layout */
+#wrap 
+{
+	width: 950px;
+	margin: 0px auto;
+	border-left: 1px solid #65BCEB;
+	border-right: 1px solid #65BCEB;
+	border-bottom: 1px solid #65BCEB;
+}
+#header
+{
+	background: url('images/Admin/bg_header.jpg') 0px 0px repeat-x;
+	height: 64px;
+	padding: 10px 0px 0px 10px;
+}
+#logo
+{
+	background: url('images/Admin/logo.png') 0px 0px no-repeat;
+	height: 46px;	
+	padding: 15px 0px 0px 70px;
+	font-size: 22px;
+	font-family: Tahoma;
+	color: #FFF;
+	font-weight: bolder;
+}
+#menu
+{
+	background: #E2F3FC;
+	width: 950px;
+}
+#maincontent 
+{
+	padding: 1px;
+}
+
+#footer 
+{
+	background: #E2F3FC;
+	padding: 15px;
+	text-align:center;
+	font-size:11px;
+}
+
+/* menu style */
+#menu ul 
+{
+	list-style: none;
+    padding-left:5px;
+    margin: 0px;
+    display: block;
+    width:800px;
+}
+#menu ul li
+{
+	float: left;
+	display:block; 
+	padding: 5px 10px;
+	border-right: 1px solid #87CBEF;
+	position:relative;
+	z-index:500; 
+}
+#menu ul li a
+{
+	color: #116795;
+	display:block; 
+}
+#menu ul li a:hover
+{
+	color: #CC6600;
+}
+
+/* submenu, it's hidden by default */
+		#menu ul a.selected {
+			color:#f00;
+		}
+
+		#menu ul ul {
+			position:absolute; 
+			left:0;
+			top:26px; 
+			display:none; 
+			margin:0 0 0 -1px; 
+			padding:0; 
+			list-style:none;
+			background: #E2F3FC;
+			border:1px solid #87CBEF;
+			width:200px;
+		}
+		
+		#menu ul ul li {
+			width:200px; 
+			float:left; 			
+			padding:0px;
+			margin:0px;
+			border-bottom:1px solid #B3DBEF;
+		}
+		
+		/* display block will make the link fill the whole area of LI */
+		#menu ul ul a {
+			display:block;
+			padding: 5px; 
+			text-decoration:none;	
+		}
+		
+		#menu ul ul a:hover 
+		{
+			color:#09354D;
+			background:#CBEAFA;
+		}
+
+		/* fix ie6 small issue */
+		/* we should always avoid using hack like this */
+		/* should put it into separate file : ) */
+		*html #menu ul ul {
+			margin:0 0 0 -2px;
+		}
+	li.line 
+	{
+		border-bottom: 1px solid #87CBEF;
+	}
+/* style */
+h2.title 
+{
+	margin: 10px 0px 2px 5px;
+}
+.tbl-list 
+{
+	width: 100%;
+	margin: 10px 0px;
+}
+.tbl-list a
+{
+	color:#333;
+}
+.tbl-list a:hover
+{
+	color:#116C9D;
+}
+.tbl-header
+{
+	font-size:90%;
+	color: #116C9D;
+	background:#D7EEFB;
+	text-align:center;
+}
+.tbl-list .row2
+{
+	background:#F2FCFF;
+}
+.tbl-footer
+{
+	font-size:90%;
+	color: #CCC;
+	background:#D7EEFB;
+	text-align:center;
+}
+
+.list-state 
+{
+	width: 30px;
+	text-align:center;
+}
+/* toolbar */
+.toolbar 
+{
+	text-align: right;	
+}
+.toolbar ul 
+{
+	list-style: none;
+    padding-left:5px;
+    margin: 0px;
+}
+.toolbar ul li.btn-toolbar
+{
+	float: right;
+	display:block; 
+	background: url('images/Admin/bg_toolbar_l.gif') 0px 0px no-repeat;
+	height:27px;
+	padding:0px;
+	margin: 0px 3px;
+}
+.toolbar ul li.btn-toolbar span
+{
+	display:block; 
+	background: url('images/Admin/bg_toolbar_r.gif') top right no-repeat;
+	height:27px;
+}
+.toolbar ul li.btn-toolbar span a
+{
+	color: #FFF;
+	display:block;
+	padding: 5px 5px 0px 23px;
+	margin:0px 10px;
+	font-weight:bold;
+	font-size:90%;
+	height: 21px;
+}
+.toolbar ul li.btn-toolbar span a:hover
+{
+	
+}
+
+#btn-logout
+{
+	float: right;
+	width: 50px;
+}
+.btn-add 
+{
+	background: url('images/Admin/icon/add.png') 0px 8px no-repeat;
+}
+.btn-edit 
+{
+	background: url('images/Admin/icon/edit.png') 0px 8px no-repeat;
+}
+.btn-del 
+{
+	background: url('images/Admin/icon/del.png') 0px 8px no-repeat;
+}
+.btn-publish 
+{
+	background: url('images/Admin/icon/publish.png') 0px 8px no-repeat;
+}
+.btn-unpublish 
+{
+	background: url('images/Admin/icon/unpublish.png') 0px 8px no-repeat;
+}
+.btn-cancel 
+{
+	background: url('images/Admin/icon/cancel.png') 0px 8px no-repeat;
+}
+.btn-save 
+{
+	background: url('images/Admin/icon/save.png') 0px 8px no-repeat;
+}
+/* special */
+.widget 
+{
+	width:400px;
+	float: left;
+	margin: 5px 30px;
+}
+.widget div
+{
+	border: 1px solid #CCC;
+}
+
+.widget h3
+{
+	margin: 5px;
+}
+.widget td 
+{
+	padding: 3px;
+	border-bottom: 1px dotted #CCC;
+}
+.widget .report-value 
+{
+	font-weight:bold;
+	text-align:right;
+}
+
+#tooltip{
+	position:absolute;
+	border:1px solid #333;
+	background:#f7f5d1;
+	padding:2px 5px;
+	color:#333;
+	display:none;
+	}
+.clr 
+{
+	clear: both;
+}
